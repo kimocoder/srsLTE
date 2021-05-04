@@ -131,6 +131,7 @@ public:
   bool get_metrics(enb_metrics_t* m) override;
 
   // eNodeB command interface
+  void cmd_cell_measure() override;
   void cmd_cell_gain(uint32_t cell_id, float gain) override;
 
 private:

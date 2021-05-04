@@ -232,6 +232,11 @@ srslte::LOG_LEVEL_ENUM enb::level(std::string l)
   }
 }
 
+void enb::cmd_cell_measure()
+{
+  phy->cmd_cell_measure();
+}
+
 std::string enb::get_build_mode()
 {
   return std::string(srslte_get_build_mode());

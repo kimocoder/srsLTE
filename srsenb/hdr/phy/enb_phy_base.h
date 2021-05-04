@@ -45,6 +45,8 @@ public:
 
   virtual void get_metrics(phy_metrics_t* m) = 0;
 
+  virtual void cmd_cell_measure() = 0;
+
   virtual void cmd_cell_gain(uint32_t cell_idx, float gain_db) = 0;
 };
 
