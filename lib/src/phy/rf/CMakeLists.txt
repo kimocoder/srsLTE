@@ -19,7 +19,7 @@
 #
 
 if(RF_FOUND)
-  # This library is only used by the examples 
+  # This library is only used by the examples
   add_library(srslte_rf_utils STATIC rf_utils.c)
   target_link_libraries(srslte_rf_utils srslte_phy)
 
@@ -59,6 +59,11 @@ if(RF_FOUND)
     list(APPEND SOURCES_RF rf_soapy_imp.c)
   endif (SOAPYSDR_FOUND AND ENABLE_SOAPYSDR)
 
+  if (LIMESDR_FOUND AND ENABLE_LIMESDR)
+    add_definitions(-DENABLE_LIMESDR)
+    list(APPEND SOURCES_RF rf_limesdr_impl.c)
+  endif (LIMESDR_FOUND AND ENABLE_LIMESDR)
+
   if (ZEROMQ_FOUND)
     add_definitions(-DENABLE_ZEROMQ)
     list(APPEND SOURCES_RF rf_zmq_imp.c rf_zmq_imp_tx.c rf_zmq_imp_rx.c)
@@ -67,7 +72,7 @@ if(RF_FOUND)
   add_library(srslte_rf SHARED ${SOURCES_RF})
   target_link_libraries(srslte_rf srslte_rf_utils srslte_phy)
   set_target_properties(srslte_rf PROPERTIES VERSION ${SRSLTE_VERSION_STRING} SOVERSION ${SRSLTE_SOVERSION})
-  
+
   if (UHD_FOUND)
     target_link_libraries(srslte_rf ${UHD_LIBRARIES})
   endif (UHD_FOUND)
@@ -86,6 +91,10 @@ if(RF_FOUND)
     target_link_libraries(rf_zmq_test srslte_rf)
     #add_test(rf_zmq_test rf_zmq_test)
   endif (ZEROMQ_FOUND)
+
+  if (LIMESDR_FOUND AND ENABLE_LIMESDR)
+    target_link_libraries(srsran_rf ${LIMESDR_LIBRARIES})
+  endif (LIMESDR_FOUND AND ENABLE_LIMESDR)
 
   INSTALL(TARGETS srslte_rf DESTINATION ${LIBRARY_DIR})
 endif(RF_FOUND)

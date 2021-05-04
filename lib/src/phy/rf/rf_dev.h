@@ -225,6 +225,41 @@ static rf_dev_t dev_zmq = {"zmq",
                            .srslte_rf_send_timed_multi = rf_zmq_send_timed_multi};
 #endif
 
+/* Define implementation for Lime */
+#ifdef ENABLE_LIMESDR
+
+#include "rf_limesdr_impl.h"
+
+static rf_dev_t dev_lime = {"limesdr",
+                             rf_lime_devname,
+                             rf_lime_start_rx_stream,
+                             rf_lime_stop_rx_stream,
+                             rf_lime_flush_buffer,
+                             rf_lime_has_rssi,
+                             rf_lime_get_rssi,
+                             rf_lime_suppress_stdout,
+                             rf_lime_register_error_handler,
+                             rf_lime_open,
+                             rf_lime_open_multi,
+                             rf_lime_close,
+                             rf_lime_set_rx_srate,
+                             rf_lime_set_rx_gain,
+                             rf_lime_set_tx_gain,
+                             rf_lime_get_rx_gain,
+                             rf_lime_get_tx_gain,
+                             rf_lime_get_info,
+                             rf_lime_set_rx_freq,
+                             rf_lime_set_tx_srate,
+                             rf_lime_set_tx_freq,
+                             rf_lime_get_time,
+                             NULL,
+                             rf_lime_recv_with_time,
+                             rf_lime_recv_with_time_multi,
+                             rf_lime_send_timed,
+                             .srslte_rf_send_timed_multi = rf_lime_send_timed_multi};
+
+#endif
+
 //#define ENABLE_DUMMY_DEV
 
 #ifdef ENABLE_DUMMY_DEV
@@ -254,6 +289,9 @@ static rf_dev_t* available_devices[] = {
 #endif
 #ifdef ENABLE_ZEROMQ
     &dev_zmq,
+#endif
+#ifdef ENABLE_LIMESDR
+    &dev_lime,
 #endif
 #ifdef ENABLE_DUMMY_DEV
     &dev_dummy,
